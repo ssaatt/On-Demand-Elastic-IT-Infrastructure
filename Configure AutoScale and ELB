@@ -1,0 +1,83 @@
+Configure CloudWatch:
+set JAVA_HOME=C:\Program Files\Java\jdk1.7.0_17
+set PATH=%PATH%;%JAVA_HOME%\bin
+set AWS_CLOUDWATCH_HOME=C:\Users\user1\Desktop\CloudWatch
+set PATH=%PATH%;%AWS_CLOUDWATCH_HOME%\bin
+set AWS_CREDENTIAL_FILE=C:\Users\user1\Desktop\CloudWatch\key.txt mon-cmd
+
+
+Configure Autoscale:
+set JAVA_HOME=C:\Program Files\Java\jdk1.7.0_17
+set PATH=%PATH%;%JAVA_HOME%\bin
+set AWS_AUTO_SCALING_HOME=C:\Users\user1\Desktop\CLIs
+set PATH=%PATH%;%AWS_AUTO_SCALING_HOME%\bin
+set AWS_CREDENTIAL_FILE=C:\Users\user1\Desktop\CLIs\key.txt
+as-cmd
+
+
+Configure ELB
+set JAVA_HOME=C:\Program Files\Java\jdk1.7.0_17
+set PATH=%PATH%;%JAVA_HOME%\bin
+set AWS_ELB_HOME=C:\Users\user1\Desktop\ELB
+set PATH=%PATH%;%AWS_ELB_HOME%\bin
+set AWS_CREDENTIAL_FILE=C:\Users\user1\Desktop\ELB\key.txt
+elb-cmd
+
+
+Command Line
+1.
+elb-create-lb MyLB --listener " protocol=http, lb-port=80, instance-port=80" --availability-zones us-east-1d --access-key-id AKIAJEDD5VGD7VSYS3DA --secret-key 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
+
+Response: DNS_NAME MyLB-746793637
+
+2. 
+as-create-launch-config MyLC --image-id ami-35792c5c --instance-type t1.micro --access-key-id AKIAJEDD5VGD7VSYS3DA --secret-key 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
+
+Response: OK-Created launch config
+
+3.
+as-create-auto-scaling-group MyGroup --launch-configuration MyLC --availability-zones us-east-1d --min-size 1 --max-size 2 --access-key-id AKIAJEDD5VGD7VSYS3DA --secret-key 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
+
+Response: OK-Created AutoScalingGroup
+
+4. 
+as-put-scaling-policy MyPolicy --auto-scaling-group MyGroup --adjustment=100 --type PercentChangeInCapacity --access-key-id AKIAJEDD5VGD7VSYS3DA --secret-key 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
+
+Response: arn:aws:autoscaling:us-east-1:993164440005:scalingPolicy:1dbba782-a33b-44bb-b9a6-a83059d63894:autoScalingGroupName/MyGroup:policyName/MyPolicy
+
+5.
+mon-put-metric-alarm --alarm-name Up --metric-name CPUUtilization --namespace "AWS/EC2" --statistic Average --period 60 --threshold 70 --comparison-operator GreaterThanOrEqualToThreshold --dimensions "AutoScalingGroupName=MyGroup" --evaluation-periods 1 --alarm-actions arn:aws:autoscaling:us-east-1:993164440005:scalingPolicy:1dbba782-a33b-44bb-b9a6-a83059d63894:autoScalingGroupName/MyGroup:policyName/MyPolicy --access-key-id AKIAJEDD5VGD7VSYS3DA --secret-key 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
+
+Response: OK-Created Alarm
+
+6. Notice: The quote may need change
+as-put-scaling-policy MyPolicy2 --auto-scaling-group MyGroup “--adjustment=-1” --type ChangeInCapacity --access-key-id AKIAJEDD5VGD7VSYS3DA --secret-key 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 
+
+Response: arn:aws:autoscaling:us-east-1:993164440005:scalingPolicy:ecec802e-f13d-4ab0-bc09-8fd5ca9d4bd6:autoScalingGroupName/MyGroup:policyName/MyPolicy2
+
+
+7.
+mon-put-metric-alarm --alarm-name Down --metric-name CPUUtilization --namespace "AWS/EC2" --statistic Average --period 60 --threshold 5 --comparison-operator LessThanOrEqualToThreshold --dimensions "AutoScalingGroupName=NewASGroup2" --evaluation-periods 1 --alarm-actions arn:aws:autoscaling:us-east-1:993164440005:scalingPolicy:ecec802e-f13d-4ab0-bc09-8fd5ca9d4bd6:autoScalingGroupName/MyGroup:policyName/MyPolicy2 --access-key-id AKIAJEDD5VGD7VSYS3DA --secret-key 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
+
+Response: OK-Created Alarm
+
+Delete:
+1.
+as-update-auto-scaling-group MyGroup --min-size 0 --max-size 0 --access-key-id AKIAJEDD5VGD7VSYS3DA --secret-key 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
+
+Response: OK-Updated AutoScalingGroup
+
+2.
+as-delete-auto-scaling-group MyGroup --access-key-id AKIAJEDD5VGD7VSYS3DA --secret-key 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
+
+Response: OK-Deleted AutoScalingGroup
+
+3.
+as-delete-launch-config MyLC --access-key-id AKIAJEDD5VGD7VSYS3DA --secret-key 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
+
+Response: OK-Deleted configuration
+
+4.
+elb-delete-lb MyLB –force –region us-east-1d --access-key-id AKIAJEDD5VGD7VSYS3DA --secret-key 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
+
+Response：OK-Deleting LoadBalancer
