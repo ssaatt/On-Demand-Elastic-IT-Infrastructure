@@ -2,6 +2,7 @@ On-Demand-Elastic-IT-Infrastructure
 ===================================
 
 Here is the scenario: You are the IT administrator for a large Enterprise. You have transformed your company's IT into a virtual infrastructure that you provision, manage and even provide the backup support. You are also making sure you minimize the cost of this virtual infrastructure that you are providing for your business. You release resources when someone is not using it, but making sure that resources are available (mostly) when needed based on some policy, schedule or active monitoring. In addition, you are providing Elastic infrastructure to set of users who require elasticity support.
+
 <br>
 Part 1: On-demand Infrastructure:
 
