@@ -109,10 +109,10 @@ public class AwsConsoleApp {
      	AmazonCloudWatchClient cloudWatch = new AmazonCloudWatchClient(credentials);
 
      	String securityGroup = "Group_1";
-     	String keyName = "Jingzhe";
+     	String keyName = "aaa";
      	String zone = "us-east-1d";
      	String imageId = "ami-35792c5c";
-     	String bucketName = "songsong";
+     	String bucketName = "aaa";
         
      	//createSecurityGroup(ec2, securityGroup);
 		//createKey(keyName, ec2);
@@ -120,8 +120,8 @@ public class AwsConsoleApp {
 		createS3File(s3, bucketName);
 		
 		
-     	AWS_instance Song = new AWS_instance(keyName, securityGroup, zone, imageId, "Song's PC");
-     	AWS_instance Lei = new AWS_instance(keyName, securityGroup, zone, imageId, "Lei's PC");
+     	AWS_instance aa = new AWS_instance(keyName, securityGroup, zone, imageId, "aa's PC");
+     	AWS_instance bb = new AWS_instance(keyName, securityGroup, zone, imageId, "bb's PC");
      	
      	
      	
@@ -147,19 +147,19 @@ public class AwsConsoleApp {
      	
      	/*
      	//TEST CASE 1
-     	Song.createInstance();
+     	aa.createInstance();
      	//Sleep 3 minutes for the instance to get fully started and to ssh into the machine
      	Thread.sleep(3*60*1000);
      	
      	
-     	//increaseCPU(Song, keyName);
+     	//increaseCPU(aa, keyName);
      	
      	//print the CPU usage every 6 seconds, but actually the cloud watch can only get the data every 1 minute.
      	int count = 0;
      	
        // We test for 10 minutes, so choose count as 100
 		while(count<100){
-			System.out.println("Song cpu = " + getCPUUsage(cloudWatch, Song.instanceId));
+			System.out.println("aa cpu = " + getCPUUsage(cloudWatch, aa.instanceId));
 			Thread.sleep(6*1000);
 			count++;
 		}*/
@@ -172,7 +172,7 @@ public class AwsConsoleApp {
      	 * 
      	 ************************************************************************************/
      	
-     	List<AWS_instance> machines = Arrays.asList(Song, Lei);
+     	List<AWS_instance> machines = Arrays.asList(aa, bb);
      	
      	int days=1;
      		
@@ -194,8 +194,8 @@ public class AwsConsoleApp {
 		     	
 			// We test for 6 minutes
 		while(count<14){
-			System.out.println("Machine Song's cpu = " + getCPUUsage(cloudWatch, Song.instanceId)+ "for the last 1 minutes");
-			System.out.println("Machine Lei's cpu=" +getCPUUsage(cloudWatch, Lei.instanceId)+ "for the last 1 minutes");
+			System.out.println("Machine aa's cpu = " + getCPUUsage(cloudWatch, aa.instanceId)+ "for the last 1 minutes");
+			System.out.println("Machine bb's cpu=" +getCPUUsage(cloudWatch, bb.instanceId)+ "for the last 1 minutes");
 			Thread.sleep(30*1000);
 			count++;
 			}
@@ -224,8 +224,8 @@ public class AwsConsoleApp {
 				     	
 					// We test for 7 minutes, so choose count as 80
 				while(count<14){
-					System.out.println("Machine Song's cpu = " + getCPUUsage(cloudWatch, Song.instanceId)+"  " +"  for the last 1 minutes");
-					System.out.println("Machine Lei's cpu=" +getCPUUsage(cloudWatch, Lei.instanceId)+ "  "+  "for the last 1 minutes");
+					System.out.println("Machine aa's cpu = " + getCPUUsage(cloudWatch, aa.instanceId)+"  " +"  for the last 1 minutes");
+					System.out.println("Machine bb's cpu=" +getCPUUsage(cloudWatch, bb.instanceId)+ "  "+  "for the last 1 minutes");
 					Thread.sleep(30*1000);
 					count++;
 					}
