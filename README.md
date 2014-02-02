@@ -35,3 +35,4 @@ What you need to show:
 Elastic support
 
 4. For one user, set up wth Autoscale such that when the CPU load increases beyond a limit, it automatically provisions two VMs for that user. You need to show in the AWS dashboard that two VMs are running when CPU load is high. You may additionally show that CPU load drops below a certain level and you may need to shut down the machine for that day.
+
